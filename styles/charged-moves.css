@@ -14,17 +14,24 @@ footer {
 }
 
 #moves-container > figcaption {
-    position: absolute;
-    right: 2em;
-    bottom: 1em;
-    border: 3px solid black;
-    padding: 0.5em;
+    margin: 1em 0;
+}
+
+@media print, (min-width: 90em) {
+    #moves-container > figcaption {
+        position: absolute;
+        right: 2em;
+        bottom: 0;
+        border: 3px solid black;
+        padding: 0.5em;
+    }
 }
 
 figcaption > dl {
     display: grid;
     grid-template-columns: auto auto;
     margin: 0;
+    justify-content: start;
 }
 dt {
     justify-self: end;
