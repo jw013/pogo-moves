@@ -63,6 +63,9 @@ td figure {
     flex: auto;
     min-width: max-content;
 }
+td:nth-of-type(2) figure {
+    min-height: 5.25em;
+}
 
 /* flex spacer */
 td > div > div {
