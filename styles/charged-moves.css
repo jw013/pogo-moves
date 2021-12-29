@@ -61,6 +61,7 @@ td figure {
     padding: 0 0.25em;
     margin: 1px;
     flex: auto;
+    min-width: max-content;
 }
 
 /* flex spacer */
