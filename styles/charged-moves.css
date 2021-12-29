@@ -17,23 +17,18 @@ main {
     padding: 0 20px;
 }
 
-h1 {
-    margin: 0.5em 0;
+h1, .current-season, #moves-container > figcaption, footer {
+    margin: 1em 0;
 }
 
 .current-season {
     font-size: 1.5em;
     font-weight: bold;
-    margin: 0.5em 0;
 }
 
 #moves-container {
     margin: 0;
     position: relative;
-}
-
-#moves-container > figcaption {
-    margin: 1em 0;
 }
 
 @media print, (min-width: 90em) {
@@ -47,6 +42,7 @@ h1 {
 
     footer {
         text-align: right;
+        margin: 0;
     }
 
     header {
@@ -58,7 +54,7 @@ h1 {
         font-size: 2em;
     }
     .current-season::before {
-        content: " \2014 "; /* mdash */
+        content: "\2014"; /* mdash */
         margin: 0.5em;
     }
 }
