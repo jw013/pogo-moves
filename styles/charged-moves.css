@@ -1,0 +1,111 @@
+:root {
+    font-family: "Trebuchet MS","Lucida Grande","Lucida Sans Unicode","Lucida Sans",Tahoma,sans-serif;
+}
+
+footer {
+    padding: 1em 2em;
+    text-align: right;
+}
+
+#moves-container {
+    padding: 0 1.5em;
+    margin: 0;
+    position: relative;
+}
+
+#moves-container > figcaption {
+    position: absolute;
+    right: 2em;
+    bottom: 1em;
+    border: 3px solid black;
+    padding: 0.5em;
+}
+
+#moves-container > figcaption > p {
+    display: inline;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+caption {
+    margin: 0.5em 0;
+    font-size: 2em;
+    font-weight: bold;
+}
+
+td > div {
+    display: flex;
+}
+td:first-of-type > div, td:last-of-type > div {
+    flex-flow: column wrap;
+}
+
+td figure {
+    border: 1px solid black;
+    border-radius: .5em 1em;
+    padding: 0 0.25em;
+    margin: 1px;
+    flex: auto;
+}
+
+/* flex spacer */
+td > div > div {
+    flex: 4 3em;
+}
+
+td figcaption {
+    border-bottom: 2px solid black;
+    margin: 0.25em 0;
+}
+
+ul {
+    padding-left: 0;
+    list-style: '\200B'; /* zero-width space instead of 'none' to preserve semantics */
+    margin: 0.25em 0;
+}
+
+li {
+    padding-left: 1.5em;
+    position: relative;
+    line-height: 1.25;
+}
+
+li > img {
+    width: 1.25em;
+    height: 1.25em;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
+
+li > p {
+    margin: 0px;
+}
+td:last-of-type p {
+    display: inline;
+}
+td:last-of-type p:after {
+    content: " ";
+}
+
+th > div {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+}
+th {
+    vertical-align: top;
+    width: 1.6em; /* firefox-only bug where vertical-rl causes 0 width */
+    padding: 0.25em;
+}
+td {
+    vertical-align: top;
+}
+
+@media print {
+    tr {
+        break-inside: avoid;
+    }
+}

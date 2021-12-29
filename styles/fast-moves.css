@@ -1,0 +1,148 @@
+:root {
+    font-family: "Trebuchet MS","Lucida Grande","Lucida Sans Unicode","Lucida Sans",Tahoma,sans-serif;
+}
+
+footer {
+    padding: 1em 2em;
+    text-align: right;
+}
+
+#moves-container {
+    padding: 0 1.5em;
+    margin: 0;
+    position: relative;
+}
+
+#moves-container > figcaption {
+    position: absolute;
+    right: 4em;
+    top: 6em;
+    border: 3px solid black;
+    padding: 0.5em;
+    background-color: white;
+}
+
+figcaption > dl {
+    display: grid;
+    grid-template-columns: auto auto;
+    margin: 0;
+}
+dt {
+    justify-self: end;
+}
+dt::after {
+    display: inline;
+    content: ":";
+}
+dd {
+    margin-left: 1em;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+caption {
+    margin: 0.5em 0;
+    font-size: 2em;
+    font-weight: bold;
+}
+
+tr {
+    border-top: 1px solid black;
+}
+
+th {
+    padding: 0.5em 0.5em 0;
+}
+
+th, td {
+    vertical-align: top;
+}
+
+td > div, div > div {
+    display: flex;
+}
+
+td:nth-of-type(2) > div, div > div {
+    flex-flow: column;
+}
+
+td:first-of-type > div {
+    justify-content: right;
+}
+
+/* fallback */
+[data-spacer-units] {
+    width: 30em;
+}
+[data-spacer-units="1"] {
+    width: 3em;
+}
+[data-spacer-units="2"] {
+    width: 6em;
+}
+[data-spacer-units="3"] {
+    width: 9em;
+}
+[data-spacer-units="4"] {
+    width: 12em;
+}
+[data-spacer-units="5"] {
+    width: 15em;
+}
+[data-spacer-units="6"] {
+    width: 18em;
+}
+[data-spacer-units="7"] {
+    width: 21em;
+}
+[data-spacer-units="8"] {
+    width: 24em;
+}
+[data-spacer-units="9"] {
+    width: 27em;
+}
+
+td figure {
+    border: 1px solid black;
+    border-radius: .5em 1em;
+    padding: 0 0.25em;
+    margin: 1px;
+    flex: auto;
+}
+
+td figcaption {
+    border-bottom: 2px solid black;
+    margin: 0.25em 0;
+    display: flex;
+    justify-content: space-between;
+    gap: 1em;
+}
+
+ul {
+    padding-left: 0;
+    list-style: '\200B'; /* zero-width space instead of 'none' to preserve semantics */
+    margin: 0.25em 0;
+}
+
+li {
+    padding-left: 1.5em;
+    position: relative;
+    line-height: 1.25;
+}
+
+li > img {
+    width: 1.25em;
+    height: 1.25em;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
+
+@media print {
+    tr {
+        break-inside: avoid;
+    }
+}
