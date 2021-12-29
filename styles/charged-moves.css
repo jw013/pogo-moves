@@ -21,8 +21,20 @@ footer {
     padding: 0.5em;
 }
 
-#moves-container > figcaption > p {
+figcaption > dl {
+    display: grid;
+    grid-template-columns: auto auto;
+    margin: 0;
+}
+dt {
+    justify-self: end;
+}
+dt::after {
     display: inline;
+    content: ":";
+}
+dd {
+    margin-left: 1em;
 }
 
 table {
