@@ -2,12 +2,32 @@
     font-family: "Trebuchet MS","Lucida Grande","Lucida Sans Unicode","Lucida Sans",Tahoma,sans-serif;
 }
 
-footer {
-    padding: 0 1.5em;
+.sr-only {
+    clip: rect(1px, 1px, 1px, 1px);
+    clip-path: inset(50%);
+    height: 1px;
+    width: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+}
+
+main {
+    padding: 0 20px;
+}
+
+h1 {
+    margin: 0.5em 0;
+}
+
+.current-season {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin: 0.5em 0;
 }
 
 #moves-container {
-    padding: 0 1.5em;
     margin: 0;
     position: relative;
 }
@@ -27,6 +47,19 @@ footer {
 
     footer {
         text-align: right;
+    }
+
+    header {
+        text-align: center;
+        margin: 1em 0;
+    }
+    h1, .current-season {
+        display: inline;
+        font-size: 2em;
+    }
+    .current-season::before {
+        content: " \2014 "; /* mdash */
+        margin: 0.5em;
     }
 }
 
@@ -50,12 +83,6 @@ dd {
 table {
     width: 100%;
     border-collapse: collapse;
-}
-
-caption {
-    margin: 0.5em 0;
-    font-size: 2em;
-    font-weight: bold;
 }
 
 td > div {

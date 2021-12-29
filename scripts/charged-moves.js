@@ -223,7 +223,7 @@ function toDom(groupedMoves) {
 async function main() {
   const gm = await updateGm();
   const moves = sortGroupedMoves(groupChargedMoves(gm));
-  const tableElem = toDom(moves);
+  const table = toDom(moves);
   const seasonSettings = gm.find(x => 'combatCompetitiveSeasonSettings' in x).combatCompetitiveSeasonSettings;
   const seasonEndTimestamps = seasonSettings.seasonEndTimeTimestamp;
   const gmTimestamp = await getTimestamp();
@@ -239,15 +239,14 @@ async function main() {
     const oldTable = root.querySelector('table');
 
     const tableCaption = root.querySelector('caption');
-    if (tableCaption) tableElem.prepend(tableCaption);
+    if (tableCaption) table.prepend(tableCaption);
 
-    const currentSeasonCaption = tableElem.querySelector('.season-caption');
-    removeAllChildren(currentSeasonCaption);
-    // \u2014 = &mdash;
-    currentSeasonCaption.append(` \u2014 GBL Season ${seasonEndTimestamps.length - 3}`);
+    const currentSeason = document.querySelector('.current-season');
+    removeAllChildren(currentSeason);
+    currentSeason.append(`GBL Season ${seasonEndTimestamps.length - 3}`);
 
     oldTable?.remove();
-    root.prepend(tableElem);
+    root.prepend(table);
 
     const lastUpdated = document.getElementById('last-updated');
     const intlOptions = { dateStyle: 'medium', timeStyle: 'short' };
