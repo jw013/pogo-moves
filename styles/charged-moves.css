@@ -107,13 +107,11 @@ td:last-of-type p:after {
 th > div {
     writing-mode: vertical-rl;
     transform: rotate(180deg);
+    width: 1.2em; /* firefox-only bug where vertical-rl causes 0 width */
+    margin: 0.25em 0.25em 0 0;
 }
-th {
-    vertical-align: top;
-    width: 1.6em; /* firefox-only bug where vertical-rl causes 0 width */
-    padding: 0.25em;
-}
-td {
+
+th, td {
     vertical-align: top;
 }
 
