@@ -3,8 +3,7 @@
 }
 
 footer {
-    padding: 1em 2em;
-    text-align: right;
+    padding: 0 1.5em;
 }
 
 #moves-container {
@@ -24,6 +23,10 @@ footer {
         bottom: 0;
         border: 3px solid black;
         padding: 0.5em;
+    }
+
+    footer {
+        text-align: right;
     }
 }
 
@@ -76,7 +79,8 @@ td:nth-of-type(2) figure {
 
 /* flex spacer */
 td > div > div {
-    flex: 4 3em;
+    flex: 2 4em;
+    min-width: 3em;
 }
 
 td figcaption {
