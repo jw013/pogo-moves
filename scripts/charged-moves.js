@@ -30,11 +30,11 @@ function groupChargedMoves(gm) {
         continue;
       }
     }
-    
+
     const { energyDelta, power } = combatMove;
-    
+
     if (!(energyDelta < 0)) continue; // also handles undefined case, not that any currently exist
-    
+
     const energyBucket = moves.get(-energyDelta) ?? new Map();
     const powerBucket = energyBucket.get(power) ?? [];
     powerBucket.push(combatMove);
@@ -172,7 +172,7 @@ function toDom(groupedMoves) {
 
   for (const [energy, energyBucket] of groupedMoves) {
     const row = document.createElement('tr');
-    
+
     const energyDiv = document.createElement('div');
     energyDiv.append(`${energy} energy`);
 
@@ -197,7 +197,7 @@ function toDom(groupedMoves) {
     for (const [power, powerBucket] of energyBucket) {
       if (power < energy) continue;
       if (power > energy * 2) break;
-      
+
       const elem = moveListToDom(power, powerBucket);
       middleDiv.append(elem);
     }
@@ -233,7 +233,7 @@ async function main() {
   } else {
     document.addEventListener('DOMContentLoaded', init);
   }
-  
+
   function init() {
     const root = document.getElementById('moves-container');
     const oldTable = root.querySelector('table');
@@ -246,7 +246,7 @@ async function main() {
     currentSeason.append(`GBL Season ${seasonEndTimestamps.length - 3}`);
 
     oldTable?.remove();
-    root.prepend(table);
+    root.append(table);
 
     const lastUpdated = document.getElementById('last-updated');
     const intlOptions = { dateStyle: 'medium', timeStyle: 'short' };
