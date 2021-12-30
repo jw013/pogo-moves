@@ -54,7 +54,7 @@ tr {
 }
 
 th {
-    padding: 0.5em 0.5em 0;
+    padding: 0.5em;
 }
 
 th, td {
@@ -73,36 +73,9 @@ td:first-of-type > div {
     justify-content: right;
 }
 
-/* fallback */
-[data-spacer-units] {
-    width: 30em;
-}
-[data-spacer-units="1"] {
-    width: 3em;
-}
-[data-spacer-units="2"] {
-    width: 6em;
-}
-[data-spacer-units="3"] {
-    width: 9em;
-}
-[data-spacer-units="4"] {
-    width: 12em;
-}
-[data-spacer-units="5"] {
-    width: 15em;
-}
-[data-spacer-units="6"] {
-    width: 18em;
-}
-[data-spacer-units="7"] {
-    width: 21em;
-}
-[data-spacer-units="8"] {
-    width: 24em;
-}
-[data-spacer-units="9"] {
-    width: 27em;
+.spacer {
+    flex: calc(var(--spacer-units, 10) * 3em);
+    min-width: 2em;
 }
 
 td figure {
@@ -119,6 +92,10 @@ td figcaption {
     display: flex;
     justify-content: space-between;
     gap: 1em;
+}
+
+td figcaption > span {
+    min-width: max-content;
 }
 
 ul {

@@ -9,7 +9,7 @@ const excludedFastMoves = new Set([
   'WATER_GUN_FAST_BLASTOISE'
 ])
 
-// Map ept => Map ppt => Map turns => [moves]
+// Map ept => Map (ppt + ept) => Map turns => [moves]
 function groupFastMoves(gm) {
   const seenMoves = getAllTeachableMoves(gm);
   const moves = new Map();
@@ -26,18 +26,18 @@ function groupFastMoves(gm) {
 
     const { energyDelta, durationTurns = 0, power = 0 } = combatMove;
 
-    if (!(energyDelta > 0)) continue; 
+    if (!(energyDelta > 0)) continue;
 
     const turns = durationTurns + 1; // adjust for gm values being 1 off
     const eptKey = energyDelta * lcmTurns / turns;
-    const pptKey = power * lcmTurns / turns;
+    const sumptKey = (energyDelta + power) * lcmTurns / turns;
 
     const energyBucket = moves.get(eptKey) ?? new Map();
-    const powerBucket = energyBucket.get(pptKey) ?? new Map();
+    const powerBucket = energyBucket.get(sumptKey) ?? new Map();
     const turnBucket = powerBucket.get(turns) ?? [];
     turnBucket.push(combatMove);
     powerBucket.set(turns, turnBucket);
-    energyBucket.set(pptKey, powerBucket);
+    energyBucket.set(sumptKey, powerBucket);
     moves.set(eptKey, energyBucket);
   }
   return moves;
@@ -45,12 +45,12 @@ function groupFastMoves(gm) {
 
 function sortGroupedMoves(moves) {
   for (const [eptKey, energyBucket] of moves) {
-    for (const [pptKey, powerBucket] of energyBucket) {
+    for (const [sumptKey, powerBucket] of energyBucket) {
       for (const turnBucket of powerBucket.values()) {
         // equality should not occur in source data, no need to handle
         turnBucket.sort((a, b) => a.uniqueId > b.uniqueId ? 1 : -1);
       }
-      energyBucket.set(pptKey, sortMapByKeys(powerBucket, numericCompare))
+      energyBucket.set(sumptKey, sortMapByKeys(powerBucket, numericCompare))
     }
     moves.set(eptKey, sortMapByKeys(energyBucket, numericCompare));
   }
@@ -68,7 +68,7 @@ function moveIdtoTitle(id) {
       .join(' ');
 }
 
-function moveListTodom(turns, energy, power, moves) {
+function moveListToDom(turns, energy, power, moves) {
   const turnElem = document.createElement('figure');
   const turnHeader = document.createElement('figcaption');
   const capLeft = document.createElement('span');
@@ -90,9 +90,16 @@ function moveListTodom(turns, energy, power, moves) {
 
     moveList.append(li);
   }
-  
+
   turnElem.append(turnHeader,  moveList);
   return turnElem;
+}
+
+function makeSpacerDom(units) {
+  const spacerDiv = document.createElement('div');
+  spacerDiv.classList.add('spacer');
+  spacerDiv.style.setProperty('--spacer-units', units);
+  return spacerDiv;
 }
 
 /**
@@ -108,6 +115,13 @@ function moveListTodom(turns, energy, power, moves) {
 function toDom(groupedMoves) {
   const table = document.createElement('table');
 
+  let minSumpt = Number.POSITIVE_INFINITY;
+  let maxSumpt = Number.NEGATIVE_INFINITY;
+  for (const [eptKey, energyBucket] of groupedMoves) {
+    const sumptKeys = Array.from(energyBucket.keys());
+    if (minSumpt > sumptKeys[0]) minSumpt = sumptKeys[0];
+    if (maxSumpt < sumptKeys[sumptKeys.length - 1]) maxSumpt = sumptKeys[sumptKeys.length - 1];
+  }
   for (const [eptKey, energyBucket] of groupedMoves) {
     const tr = document.createElement('tr');
 
@@ -119,69 +133,65 @@ function toDom(groupedMoves) {
     th.append(thDiv);
     tr.append(th);
 
-    let lastPpt = undefined;
-
     const tdLeft = document.createElement('td');
     const tdLeftDiv = document.createElement('div');
-    for (const [pptKey, powerBucket] of energyBucket) {
-      if (pptKey + eptKey >= 6 * lcmTurns) break;
+    let lastSumpt = minSumpt - lcmTurns / 3;
+    for (const [sumptKey, powerBucket] of energyBucket) {
+      if (sumptKey >= 6 * lcmTurns) break;
 
-      if (lastPpt !== undefined && pptKey - lastPpt > lcmTurns / 3) {
-        const spacerDiv = document.createElement('div');
-        spacerDiv.setAttribute('data-spacer-units', (pptKey - lastPpt) / 10 - 2);
-        tdLeftDiv.append(spacerDiv);
+      if (sumptKey - lastSumpt > lcmTurns / 3) {
+        tdLeftDiv.append(makeSpacerDom((sumptKey - lastSumpt) * 6 / lcmTurns - 2));
       }
 
       const pptDiv = document.createElement('div');
       for (const [turns, turnBucket] of powerBucket) {
-        const turnElem = moveListTodom(turns, eptKey / (lcmTurns / turns), pptKey / (lcmTurns / turns), turnBucket);
+        const turnElem = moveListToDom(turns, eptKey / (lcmTurns / turns), (sumptKey - eptKey) / (lcmTurns / turns), turnBucket);
         pptDiv.append(turnElem);
       }
       tdLeftDiv.append(pptDiv);
-      lastPpt = pptKey;
+      lastSumpt = sumptKey;
     }
-    const midPpt = 6 * lcmTurns - eptKey;
-    if (lastPpt !== undefined && midPpt - lastPpt > lcmTurns / 3) {
-      const spacerDiv = document.createElement('div');
-      spacerDiv.setAttribute('data-spacer-units', (midPpt - lastPpt) / 10 - 2);
-      tdLeftDiv.append(spacerDiv);
+    const midSumpt = 6 * lcmTurns;
+    if (midSumpt - lastSumpt > lcmTurns / 3) {
+      tdLeftDiv.append(makeSpacerDom((midSumpt - lastSumpt) * 6 / lcmTurns - 2));
     }
     tdLeft.append(tdLeftDiv);
     tr.append(tdLeft);
 
     const tdMid = document.createElement('td');
     const tdMidDiv = document.createElement('div');
-    for (const [pptKey, powerBucket] of energyBucket) {
-      if (pptKey + eptKey < 6 * lcmTurns) continue;
-      if (pptKey + eptKey > 6 * lcmTurns) break;
+    for (const [sumptKey, powerBucket] of energyBucket) {
+      if (sumptKey < 6 * lcmTurns) continue;
+      if (sumptKey > 6 * lcmTurns) break;
 
       for (const [turns, turnBucket] of powerBucket) {
-        const turnElem = moveListTodom(turns, eptKey / (lcmTurns / turns), pptKey / (lcmTurns / turns), turnBucket);
+        const turnElem = moveListToDom(turns, eptKey / (lcmTurns / turns), (sumptKey - eptKey) / (lcmTurns / turns), turnBucket);
         tdMidDiv.append(turnElem);
       }
     }
     tdMid.append(tdMidDiv);
     tr.append(tdMid);
 
-    lastPpt = 6 * lcmTurns - eptKey;
+    lastSumpt = midSumpt;
     const tdRight = document.createElement('td');
     const tdRightDiv = document.createElement('div');
-    for (const [pptKey, powerBucket] of energyBucket) {
-      if (pptKey + eptKey <= 6 * lcmTurns) continue;
+    for (const [sumptKey, powerBucket] of energyBucket) {
+      if (sumptKey <= 6 * lcmTurns) continue;
 
-      if (pptKey - lastPpt > lcmTurns / 3) {
-        const spacerDiv = document.createElement('div');
-        spacerDiv.setAttribute('data-spacer-units', (pptKey - lastPpt) / 10 - 2);
-        tdRightDiv.append(spacerDiv);
+      if (sumptKey - lastSumpt > lcmTurns / 3) {
+        tdRightDiv.append(makeSpacerDom((sumptKey - lastSumpt) * 6 / lcmTurns - 2));
       }
 
       const pptDiv = document.createElement('div');
       for (const [turns, turnBucket] of powerBucket) {
-        const turnElem = moveListTodom(turns, eptKey / (lcmTurns / turns), pptKey / (lcmTurns / turns), turnBucket);
+        const turnElem = moveListToDom(turns, eptKey / (lcmTurns / turns), (sumptKey - eptKey) / (lcmTurns / turns), turnBucket);
         pptDiv.append(turnElem);
       }
       tdRightDiv.append(pptDiv);
-      lastPpt = pptKey;
+      lastSumpt = sumptKey;
+    }
+    if (maxSumpt > lastSumpt) {
+      tdRightDiv.append(makeSpacerDom((maxSumpt - lastSumpt) * 6 / lcmTurns));
     }
     tdRight.append(tdRightDiv);
     tr.append(tdRight);
