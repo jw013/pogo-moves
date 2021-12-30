@@ -10,9 +10,7 @@ const excludedChargeMoves = new Set([
   'MEGA_DRAIN',
   'GIGA_DRAIN',
   'HEART_STAMP',
-  'REST',
-  'ORIGIN_PULSE',
-  'PRECIPICE_BLADES'
+  'REST'
 ]);
 
 // subdivide first by energyDelta, then by power
