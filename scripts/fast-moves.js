@@ -224,13 +224,12 @@ async function main() {
     const tableCaption = root.querySelector('caption');
     if (tableCaption) table.prepend(tableCaption);
 
-    const currentSeasonCaption = table.querySelector('.season-caption');
+    const currentSeasonCaption = document.getElementById('current-season');
     removeAllChildren(currentSeasonCaption);
-    // \u2014 = &mdash;
-    currentSeasonCaption.append(` \u2014 GBL Season ${seasonEndTimestamps.length - 3}`);
+    currentSeasonCaption.append(`GBL Season ${seasonEndTimestamps.length - 3}`);
 
     oldTable?.remove();
-    root.prepend(table);
+    root.append(table);
 
     const lastUpdated = document.getElementById('last-updated');
     const intlOptions = { dateStyle: 'medium', timeStyle: 'short' };

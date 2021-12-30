@@ -2,24 +2,62 @@
     font-family: "Trebuchet MS","Lucida Grande","Lucida Sans Unicode","Lucida Sans",Tahoma,sans-serif;
 }
 
-footer {
-    padding: 1em 2em;
-    text-align: right;
+.sr-only {
+    clip: rect(1px, 1px, 1px, 1px);
+    clip-path: inset(50%);
+    height: 1px;
+    width: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+}
+
+main {
+    padding: 0 20px;
+}
+
+h1, #current-season, #moves-container > figcaption, footer {
+    margin: 1em 0;
+}
+
+#current-season {
+    font-size: 1.5em;
+    font-weight: bold;
 }
 
 #moves-container {
-    padding: 0 1.5em;
     margin: 0;
     position: relative;
 }
 
-#moves-container > figcaption {
-    position: absolute;
-    right: 4em;
-    top: 6em;
-    border: 3px solid black;
-    padding: 0.5em;
-    background-color: white;
+@media print, (min-width: 90em) {
+    #moves-container > figcaption {
+        position: absolute;
+        right: 4em;
+        top: 1em;
+        border: 3px solid black;
+        padding: 0.5em;
+        background-color: whitesmoke;
+    }
+
+    footer {
+        margin: 0;
+        text-align: right;
+    }
+
+    header {
+        text-align: center;
+        margin: 1em 0;
+    }
+    h1, #current-season {
+        display: inline;
+        font-size: 2em;
+    }
+    #current-season::before {
+        content: "\2014"; /* mdash */
+        margin: 0.5em;
+    }
 }
 
 figcaption > dl {
@@ -41,12 +79,6 @@ dd {
 table {
     width: 100%;
     border-collapse: collapse;
-}
-
-caption {
-    margin: 0.5em 0;
-    font-size: 2em;
-    font-weight: bold;
 }
 
 tr {
