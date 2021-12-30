@@ -17,11 +17,11 @@ main {
     padding: 0 20px;
 }
 
-h1, .current-season, #moves-container > figcaption, footer {
+h1, #current-season, #moves-container > figcaption, footer {
     margin: 1em 0;
 }
 
-.current-season {
+#current-season {
     font-size: 1.5em;
     font-weight: bold;
 }
@@ -49,11 +49,11 @@ h1, .current-season, #moves-container > figcaption, footer {
         text-align: center;
         margin: 1em 0;
     }
-    h1, .current-season {
+    h1, #current-season {
         display: inline;
         font-size: 2em;
     }
-    .current-season::before {
+    #current-season::before {
         content: "\2014"; /* mdash */
         margin: 0.5em;
     }

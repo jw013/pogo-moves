@@ -239,7 +239,7 @@ async function main() {
     const tableCaption = root.querySelector('caption');
     if (tableCaption) table.prepend(tableCaption);
 
-    const currentSeason = document.querySelector('.current-season');
+    const currentSeason = document.getElementById('current-season');
     removeAllChildren(currentSeason);
     currentSeason.append(`GBL Season ${seasonEndTimestamps.length - 3}`);
 
