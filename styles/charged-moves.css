@@ -35,9 +35,10 @@ h1, #current-season, #moves-container > figcaption, footer {
     #moves-container > figcaption {
         position: absolute;
         right: 2em;
-        bottom: 0;
+        bottom: -0.5em;
         border: 3px solid black;
         padding: 0.5em;
+        background: ghostwhite;
     }
 
     footer {
@@ -145,7 +146,7 @@ td:last-of-type p:after {
     content: " ";
 }
 
-th > div {
+tr:not(.scale) th > div {
     writing-mode: vertical-rl;
     transform: rotate(180deg);
     width: 1.2em; /* firefox-only bug where vertical-rl causes 0 width */
@@ -154,6 +155,37 @@ th > div {
 
 th, td {
     vertical-align: top;
+    padding-top: 0.25em;
+}
+
+.scale > th, .scale > td {
+    padding-top: 1px;
+}
+
+.scale > th > div {
+    text-align: right;
+    padding-right: 0.25em;
+}
+
+.scale ~ .scale > th {
+    visibility: collapse;
+}
+
+.scale td[colspan] > div {
+    display: flex;
+    flex-flow: row;
+    padding-right: 5em;
+    border-bottom: 2px solid black;
+}
+
+.scale div > div {
+    border-left: 3px solid black;
+    flex: calc(var(--width) * 100);
+    min-width: 0;
+}
+
+.scale div > div > p {
+    padding-left: 0.25em;
 }
 
 @media print {

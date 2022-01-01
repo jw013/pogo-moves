@@ -1,5 +1,5 @@
 import { updateGm, getTimestamp, getAllTeachableMoves } from './gm.js';
-import { sortMapByKeys, numericCompare, removeAllChildren } from './utils.js';
+import { sortMapByKeys, numericCompare, removeAllChildren, toLocaleFixed } from './utils.js';
 
 // moves in GM but not usable
 const excludedChargeMoves = new Set([
@@ -38,12 +38,6 @@ function groupChargedMoves(gm) {
     powerBucket.push(combatMove);
     energyBucket.set(power, powerBucket);
     moves.set(-energyDelta, energyBucket);
-  }
-  // add empty spacers for power values from [1 * energy, 2 * energy]
-  for (const [energy, energyBucket] of moves) {
-    for (let power = energy; power <= energy * 2; power += 5) {
-      if (!energyBucket.has(power)) energyBucket.set(power, undefined);
-    }
   }
   return moves;
 }
@@ -166,11 +160,22 @@ function moveListToDom(power, moves) {
  * </table>
  */
 function toDom(groupedMoves) {
+  let minPpe = 1; // this is the minimum we care to display a scale for
+  let maxPpe = 2;
+  for (const [energy, energyBucket] of groupedMoves) {
+    const pKeys = Array.from(energyBucket.keys());
+    if (pKeys.length && maxPpe < pKeys[pKeys.length - 1] / energy) maxPpe = pKeys[pKeys.length - 1] / energy;
+  }
+  const logScaleFactor = 1 / Math.log(maxPpe / minPpe);
+  function scaleLog(ppe) {
+    return Math.log(ppe / minPpe) * logScaleFactor;
+  }
+
   const table = document.createElement('table');
   const tbody = document.createElement('tbody');
 
   for (const [energy, energyBucket] of groupedMoves) {
-    const row = document.createElement('tr');
+    const moveRow = document.createElement('tr');
 
     const energyDiv = document.createElement('div');
     energyDiv.append(`${energy} energy`);
@@ -179,7 +184,7 @@ function toDom(groupedMoves) {
     th.scope = 'row';
 
     th.appendChild(energyDiv);
-    row.appendChild(th);
+    moveRow.appendChild(th);
 
     const lowEffTd = document.createElement('td');
     const lowEffDiv = document.createElement('div');
@@ -193,13 +198,14 @@ function toDom(groupedMoves) {
 
     const middleTd = document.createElement('td');
     const middleDiv = document.createElement('div');
-    for (const [power, powerBucket] of energyBucket) {
-      if (power < energy) continue;
-      if (power > energy * 2) break;
-
-      const elem = moveListToDom(power, powerBucket);
+    // include empty spacers for power values from [1 * energy, 2 * energy]
+    // this assumption that all charge move powers are multiples of 5 is
+    // core to the layout algorithm of this middle column due the use of unit div spacers
+    for (let power = energy; power <= energy * 2; power += 5) {
+      const elem = moveListToDom(power, energyBucket.get(power));
       middleDiv.append(elem);
     }
+
     middleTd.append(middleDiv);
 
     const highEffTd = document.createElement('td');
@@ -212,8 +218,53 @@ function toDom(groupedMoves) {
     }
     highEffTd.append(highEffDiv);
 
-    row.append(lowEffTd, middleTd, highEffTd);
-    tbody.append(row);
+    moveRow.append(lowEffTd, middleTd, highEffTd);
+    tbody.append(moveRow);
+
+    const ppeScaleRow = document.createElement('tr');
+    ppeScaleRow.classList.add('scale');
+
+    const scaleTh = document.createElement('th');
+    scaleTh.colSpan = 2;
+    scaleTh.scope = 'row';
+    const scaleHeadDiv = document.createElement('div');
+    scaleHeadDiv.append('(log scale) ppe');
+    scaleTh.append(scaleHeadDiv);
+    ppeScaleRow.append(scaleTh);
+
+    const scaleCell = document.createElement('td');
+    scaleCell.colSpan = 2;
+    const scaleContainer = document.createElement('div');
+    let lastPower = -1;
+    for (const power of energyBucket.keys()) {
+      if (power / energy < minPpe) continue;
+      const segment = document.createElement('div');
+      if (lastPower > 0) {
+        segment.style.setProperty('--width', scaleLog(power / energy) - scaleLog(lastPower / energy));
+        const textContainer = document.createElement('p');
+        textContainer.append(`${lastPower}/${toLocaleFixed(lastPower / energy, 2)}`);
+        segment.append(textContainer);
+      } else {
+        segment.style.setProperty('--width', scaleLog(power / energy));
+      }
+      if (power / energy > minPpe)
+        scaleContainer.append(segment);
+      lastPower = power;
+    }
+    const lastScaleSegment = document.createElement('div');
+    if (lastPower > 0) {
+      lastScaleSegment.style.setProperty('--width', 1 - scaleLog(lastPower / energy));
+      const textContainer = document.createElement('p');
+      textContainer.append(`${lastPower}/${toLocaleFixed(lastPower / energy, 2)}`);
+      lastScaleSegment.append(textContainer);
+    } else {
+      lastScaleSegment.style.setProperty('--width', 1);
+    }
+    scaleContainer.append(lastScaleSegment);
+
+    scaleCell.append(scaleContainer);
+    ppeScaleRow.append(scaleCell);
+    tbody.append(ppeScaleRow);
   }
 
   table.append(tbody);
