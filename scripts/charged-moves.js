@@ -182,6 +182,7 @@ function toDom(groupedMoves) {
 
     const th = document.createElement('th');
     th.scope = 'row';
+    th.rowSpan = 2;
 
     th.appendChild(energyDiv);
     moveRow.appendChild(th);
@@ -225,7 +226,6 @@ function toDom(groupedMoves) {
     ppeScaleRow.classList.add('scale');
 
     const scaleTh = document.createElement('th');
-    scaleTh.colSpan = 2;
     scaleTh.scope = 'row';
     const scaleHeadDiv = document.createElement('div');
     scaleHeadDiv.append('(log scale) ppe');
