@@ -91,14 +91,20 @@ th {
 
 th, td {
     vertical-align: top;
+    padding-top: 0.25em;
 }
 
-td > div, div > div {
+td > div, .ppt-container {
     display: flex;
 }
 
-td:nth-of-type(2) > div, div > div {
+.ppt-container {
     flex-flow: column;
+}
+
+.ppt-container > *:first-child {
+    font-size: smaller;
+    padding-left: 0.5em;
 }
 
 td:first-of-type > div {

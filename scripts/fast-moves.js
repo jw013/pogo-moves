@@ -114,6 +114,7 @@ function makeSpacerDom(units) {
  */
 function toDom(groupedMoves) {
   const table = document.createElement('table');
+  const tbody = document.createElement('tbody');
 
   let minSumpt = Number.POSITIVE_INFINITY;
   let maxSumpt = Number.NEGATIVE_INFINITY;
@@ -144,10 +145,15 @@ function toDom(groupedMoves) {
       }
 
       const pptDiv = document.createElement('div');
+      pptDiv.classList.add('ppt-container');
+      const pptLabelDiv = document.createElement('div');
+      pptLabelDiv.append(`${toLocaleFixed((sumptKey - eptKey) / lcmTurns, 2)} ppt`);
+      pptDiv.prepend(pptLabelDiv);
       for (const [turns, turnBucket] of powerBucket) {
         const turnElem = moveListToDom(turns, eptKey / (lcmTurns / turns), (sumptKey - eptKey) / (lcmTurns / turns), turnBucket);
         pptDiv.append(turnElem);
       }
+
       tdLeftDiv.append(pptDiv);
       lastSumpt = sumptKey;
     }
@@ -160,10 +166,14 @@ function toDom(groupedMoves) {
 
     const tdMid = document.createElement('td');
     const tdMidDiv = document.createElement('div');
+    tdMidDiv.classList.add('ppt-container');
     for (const [sumptKey, powerBucket] of energyBucket) {
       if (sumptKey < 6 * lcmTurns) continue;
       if (sumptKey > 6 * lcmTurns) break;
 
+      const pptLabelDiv = document.createElement('div');
+      pptLabelDiv.append(`${toLocaleFixed((sumptKey - eptKey) / lcmTurns, 2)} ppt`);
+      tdMidDiv.prepend(pptLabelDiv);
       for (const [turns, turnBucket] of powerBucket) {
         const turnElem = moveListToDom(turns, eptKey / (lcmTurns / turns), (sumptKey - eptKey) / (lcmTurns / turns), turnBucket);
         tdMidDiv.append(turnElem);
@@ -183,10 +193,15 @@ function toDom(groupedMoves) {
       }
 
       const pptDiv = document.createElement('div');
+      pptDiv.classList.add('ppt-container');
+      const pptLabelDiv = document.createElement('div');
+      pptLabelDiv.append(`${toLocaleFixed((sumptKey - eptKey) / lcmTurns, 2)} ppt`);
+      pptDiv.prepend(pptLabelDiv);
       for (const [turns, turnBucket] of powerBucket) {
         const turnElem = moveListToDom(turns, eptKey / (lcmTurns / turns), (sumptKey - eptKey) / (lcmTurns / turns), turnBucket);
         pptDiv.append(turnElem);
       }
+
       tdRightDiv.append(pptDiv);
       lastSumpt = sumptKey;
     }
@@ -196,8 +211,9 @@ function toDom(groupedMoves) {
     tdRight.append(tdRightDiv);
     tr.append(tdRight);
 
-    table.append(tr);
+    tbody.append(tr);
   }
+  table.append(tbody);
   return table;
 }
 
