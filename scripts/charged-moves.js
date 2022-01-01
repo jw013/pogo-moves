@@ -167,6 +167,7 @@ function moveListToDom(power, moves) {
  */
 function toDom(groupedMoves) {
   const table = document.createElement('table');
+  const tbody = document.createElement('tbody');
 
   for (const [energy, energyBucket] of groupedMoves) {
     const row = document.createElement('tr');
@@ -212,9 +213,10 @@ function toDom(groupedMoves) {
     highEffTd.append(highEffDiv);
 
     row.append(lowEffTd, middleTd, highEffTd);
-    table.append(row);
+    tbody.append(row);
   }
 
+  table.append(tbody);
   return table;
 }
 
@@ -236,8 +238,12 @@ async function main() {
     const root = document.getElementById('moves-container');
     const oldTable = root.querySelector('table');
 
-    const tableCaption = root.querySelector('caption');
+    const thead = oldTable.querySelector('thead');
+    if (thead) table.prepend(thead);
+
+    const tableCaption = oldTable.querySelector('caption');
     if (tableCaption) table.prepend(tableCaption);
+    // note: HTML5 requires caption be table's first child
 
     const currentSeason = document.getElementById('current-season');
     removeAllChildren(currentSeason);
