@@ -155,6 +155,10 @@ th, td {
     padding-top: 0.25em;
 }
 
+.scale {
+    font-size: smaller;
+}
+
 .scale > th, .scale > td {
     padding-top: 1px;
 }
@@ -179,6 +183,7 @@ th, td {
     border-left: 3px solid black;
     flex: calc(var(--width) * 100);
     min-width: 0;
+    box-sizing: border-box;
 }
 
 .scale div > div > p {

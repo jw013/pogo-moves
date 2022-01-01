@@ -242,7 +242,7 @@ function toDom(groupedMoves) {
       if (lastPower > 0) {
         segment.style.setProperty('--width', scaleLog(power / energy) - scaleLog(lastPower / energy));
         const textContainer = document.createElement('p');
-        textContainer.append(`${lastPower}/${toLocaleFixed(lastPower / energy, 2)}`);
+        textContainer.append(`${toLocaleFixed(lastPower / energy, 2)}`);
         segment.append(textContainer);
       } else {
         segment.style.setProperty('--width', scaleLog(power / energy));
@@ -255,7 +255,7 @@ function toDom(groupedMoves) {
     if (lastPower > 0) {
       lastScaleSegment.style.setProperty('--width', 1 - scaleLog(lastPower / energy));
       const textContainer = document.createElement('p');
-      textContainer.append(`${lastPower}/${toLocaleFixed(lastPower / energy, 2)}`);
+      textContainer.append(`${toLocaleFixed(lastPower / energy, 2)}`);
       lastScaleSegment.append(textContainer);
     } else {
       lastScaleSegment.style.setProperty('--width', 1);
