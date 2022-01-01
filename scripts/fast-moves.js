@@ -144,17 +144,17 @@ function toDom(groupedMoves) {
         tdLeftDiv.append(makeSpacerDom((sumptKey - lastSumpt) * 6 / lcmTurns - 2));
       }
 
-      const pptDiv = document.createElement('div');
-      pptDiv.classList.add('ppt-container');
-      const pptLabelDiv = document.createElement('div');
-      pptLabelDiv.append(`${toLocaleFixed((sumptKey - eptKey) / lcmTurns, 2)} ppt`);
-      pptDiv.prepend(pptLabelDiv);
+      const pptContainer = document.createElement('figure');
+      pptContainer.classList.add('ppt-container');
+      const pptLabel = document.createElement('figcaption');
+      pptLabel.append(`${toLocaleFixed((sumptKey - eptKey) / lcmTurns, 2)} ppt`);
+      pptContainer.prepend(pptLabel);
       for (const [turns, turnBucket] of powerBucket) {
         const turnElem = moveListToDom(turns, eptKey / (lcmTurns / turns), (sumptKey - eptKey) / (lcmTurns / turns), turnBucket);
-        pptDiv.append(turnElem);
+        pptContainer.append(turnElem);
       }
 
-      tdLeftDiv.append(pptDiv);
+      tdLeftDiv.append(pptContainer);
       lastSumpt = sumptKey;
     }
     const midSumpt = 6 * lcmTurns;
@@ -165,21 +165,21 @@ function toDom(groupedMoves) {
     tr.append(tdLeft);
 
     const tdMid = document.createElement('td');
-    const tdMidDiv = document.createElement('div');
-    tdMidDiv.classList.add('ppt-container');
+    const tdMidContainer = document.createElement('figure');
+    tdMidContainer.classList.add('ppt-container');
     for (const [sumptKey, powerBucket] of energyBucket) {
       if (sumptKey < 6 * lcmTurns) continue;
       if (sumptKey > 6 * lcmTurns) break;
 
-      const pptLabelDiv = document.createElement('div');
-      pptLabelDiv.append(`${toLocaleFixed((sumptKey - eptKey) / lcmTurns, 2)} ppt`);
-      tdMidDiv.prepend(pptLabelDiv);
+      const pptLabel = document.createElement('figcaption');
+      pptLabel.append(`${toLocaleFixed((sumptKey - eptKey) / lcmTurns, 2)} ppt`);
+      tdMidContainer.prepend(pptLabel);
       for (const [turns, turnBucket] of powerBucket) {
         const turnElem = moveListToDom(turns, eptKey / (lcmTurns / turns), (sumptKey - eptKey) / (lcmTurns / turns), turnBucket);
-        tdMidDiv.append(turnElem);
+        tdMidContainer.append(turnElem);
       }
     }
-    tdMid.append(tdMidDiv);
+    tdMid.append(tdMidContainer);
     tr.append(tdMid);
 
     lastSumpt = midSumpt;
@@ -192,17 +192,17 @@ function toDom(groupedMoves) {
         tdRightDiv.append(makeSpacerDom((sumptKey - lastSumpt) * 6 / lcmTurns - 2));
       }
 
-      const pptDiv = document.createElement('div');
-      pptDiv.classList.add('ppt-container');
-      const pptLabelDiv = document.createElement('div');
-      pptLabelDiv.append(`${toLocaleFixed((sumptKey - eptKey) / lcmTurns, 2)} ppt`);
-      pptDiv.prepend(pptLabelDiv);
+      const pptContainer = document.createElement('figure');
+      pptContainer.classList.add('ppt-container');
+      const pptLabel = document.createElement('figcaption');
+      pptLabel.append(`${toLocaleFixed((sumptKey - eptKey) / lcmTurns, 2)} ppt`);
+      pptContainer.prepend(pptLabel);
       for (const [turns, turnBucket] of powerBucket) {
         const turnElem = moveListToDom(turns, eptKey / (lcmTurns / turns), (sumptKey - eptKey) / (lcmTurns / turns), turnBucket);
-        pptDiv.append(turnElem);
+        pptContainer.append(turnElem);
       }
 
-      tdRightDiv.append(pptDiv);
+      tdRightDiv.append(pptContainer);
       lastSumpt = sumptKey;
     }
     if (maxSumpt > lastSumpt) {

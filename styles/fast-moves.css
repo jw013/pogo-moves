@@ -100,6 +100,7 @@ td > div, .ppt-container {
 
 .ppt-container {
     flex-flow: column;
+    margin: 0;
 }
 
 .ppt-container > *:first-child {
@@ -116,7 +117,7 @@ td:first-of-type > div {
     min-width: 2em;
 }
 
-td figure {
+td figure figure {
     border: 1px solid black;
     border-radius: .5em 1em;
     padding: 0 0.25em;
@@ -124,7 +125,7 @@ td figure {
     flex: auto;
 }
 
-td figcaption {
+td figure figure > figcaption {
     border-bottom: 2px solid black;
     margin: 0.25em 0;
     display: flex;
@@ -132,7 +133,7 @@ td figcaption {
     gap: 1em;
 }
 
-td figcaption > span {
+td figure figure figcaption > span {
     min-width: max-content;
 }
 
