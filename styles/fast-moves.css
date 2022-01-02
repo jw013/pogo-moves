@@ -64,6 +64,7 @@ figcaption > dl {
     display: grid;
     grid-template-columns: auto auto;
     margin: 0;
+    justify-content: start;
 }
 dt {
     justify-self: end;
