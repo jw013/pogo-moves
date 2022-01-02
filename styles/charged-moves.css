@@ -180,14 +180,21 @@ th, td {
 }
 
 .scale div > div {
-    border-left: 3px solid black;
     flex: calc(var(--width) * 100);
     min-width: 0;
     box-sizing: border-box;
+    line-height: 1.2;
+}
+
+.scale div > div::before {
+    content: "";
+    border-left: 3px solid black;
+    position: absolute;
+    height: 1.2em;
 }
 
 .scale div > div > p {
-    padding-left: 0.25em;
+    padding-left: 0.5em;
 }
 
 @media print {
