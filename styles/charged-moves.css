@@ -183,7 +183,7 @@ th, td {
     flex: calc(var(--width) * 100);
     min-width: 0;
     box-sizing: border-box;
-    line-height: 1.2;
+    height: 1.2em;
 }
 
 .scale div > div::before {
