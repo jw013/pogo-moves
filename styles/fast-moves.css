@@ -101,6 +101,7 @@ td > div, .ppt-container {
 
 .ppt-container {
     flex-flow: column;
+    flex: 2 auto;
     margin: 0;
 }
 
@@ -114,7 +115,7 @@ td:first-of-type > div {
 }
 
 .spacer {
-    flex: calc(var(--spacer-units, 10) * 3em);
+    flex: var(--spacer-units, 10) calc(var(--spacer-units, 10) * 2em);
     min-width: 2em;
 }
 
