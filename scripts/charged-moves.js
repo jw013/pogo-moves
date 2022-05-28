@@ -55,24 +55,24 @@ function sortGroupedMoves(moves) {
 }
 
 const moveNames = {
-		'POWER_UP_PUNCH': 'Power-Up Punch'
-	, 'V_CREATE': 'V-create'
-	, 'X_SCISSOR': 'X-Scissor'
-	, 'TECHNO_BLAST_NORMAL': 'Techno Blast'
-	, 'TECHNO_BLAST_BURN': 'Techno Blast'
-	, 'TECHNO_BLAST_CHILL': 'Techno Blast'
-	, 'TECHNO_BLAST_WATER': 'Techno Blast'
-	, 'TECHNO_BLAST_SHOCK': 'Techno Blast'
-	, 'WEATHER_BALL_NORMAL': 'Weather Ball'
-	, 'WEATHER_BALL_FIRE': 'Weather Ball'
-	, 'WEATHER_BALL_ICE': 'Weather Ball'
-	, 'WEATHER_BALL_ROCK': 'Weather Ball'
-	, 'WEATHER_BALL_WATER': 'Weather Ball'
-	, 'SACRED_FIRE_PLUS': 'Sacred Fire+'
-	, 'SACRED_FIRE_PLUS_PLUS': 'Sacred Fire++'
-	, 'AEROBLAST_PLUS': 'Aeroblast+'
-	, 'AEROBLAST_PLUS_PLUS': 'Aeroblast++'
-}
+	'POWER_UP_PUNCH': 'Power-Up Punch',
+	'V_CREATE': 'V-create',
+	'X_SCISSOR': 'X-Scissor',
+	'TECHNO_BLAST_NORMAL': 'Techno Blast',
+	'TECHNO_BLAST_BURN': 'Techno Blast',
+	'TECHNO_BLAST_CHILL': 'Techno Blast',
+	'TECHNO_BLAST_WATER': 'Techno Blast',
+	'TECHNO_BLAST_SHOCK': 'Techno Blast',
+	'WEATHER_BALL_NORMAL': 'Weather Ball',
+	'WEATHER_BALL_FIRE': 'Weather Ball',
+	'WEATHER_BALL_ICE': 'Weather Ball',
+	'WEATHER_BALL_ROCK': 'Weather Ball',
+	'WEATHER_BALL_WATER': 'Weather Ball',
+	'SACRED_FIRE_PLUS': 'Sacred Fire+',
+	'SACRED_FIRE_PLUS_PLUS': 'Sacred Fire++',
+	'AEROBLAST_PLUS': 'Aeroblast+',
+	'AEROBLAST_PLUS_PLUS': 'Aeroblast++'
+};
 
 function moveIdtoTitle(id) {
 	return moveNames[id] ?? id.split('_')
