@@ -136,10 +136,10 @@ li > img {
 li > p {
     margin: 0px;
 }
-td:last-of-type p {
+td:last-of-type p, td:first-of-type p {
     display: inline;
 }
-td:last-of-type p:after {
+td:last-of-type p:not(:last-child)::after, td:first-of-type p:not(:last-child)::after {
     content: " ";
 }
 
