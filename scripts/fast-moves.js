@@ -13,7 +13,7 @@ const excludedFastMoves = new Set([
 function groupFastMoves(gm) {
 	const seenMoves = getAllTeachableMoves(gm);
 	const moves = new Map();
-	for (const { combatMove } of gm) {
+	for (let { templateId, combatMove } of gm) {
 		if (combatMove === undefined) continue;
 		if (excludedFastMoves.has(combatMove.uniqueId)) {
 			// TM-able moves override the exclude list for future-proofing
@@ -22,6 +22,11 @@ function groupFastMoves(gm) {
 			} else {
 				continue;
 			}
+		}
+
+		// compensate for a few problematic combatMove entries with numeric .uniqueId fields
+		if (typeof combatMove.uniqueId === 'number') {
+			combatMove.uniqueId = templateId.substring('COMBAT_V0000_MOVE_'.length);
 		}
 
 		const { energyDelta, durationTurns = 0, power = 0 } = combatMove;

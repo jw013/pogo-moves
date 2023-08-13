@@ -18,7 +18,7 @@ const excludedChargeMoves = new Set([
 function groupChargedMoves(gm) {
 	const seenMoves = getAllTeachableMoves(gm);
 	const moves = new Map();
-	for (const { combatMove } of gm) {
+	for (let { templateId, combatMove } of gm) {
 		if (combatMove === undefined) continue;
 		if (excludedChargeMoves.has(combatMove.uniqueId)) {
 			// TM-able moves override the exclude list for future-proofing
@@ -27,6 +27,11 @@ function groupChargedMoves(gm) {
 			} else {
 				continue;
 			}
+		}
+
+		// compensate for a few problematic combatMove entries with numeric .uniqueId fields
+		if (typeof combatMove.uniqueId === 'number') {
+			combatMove.uniqueId = templateId.substring('COMBAT_V0000_MOVE_'.length);
 		}
 
 		const { energyDelta, power } = combatMove;
